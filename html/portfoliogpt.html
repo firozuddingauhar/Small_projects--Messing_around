@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Software Engineer</title>
+    <style>
+        /* Reset some default browser styles */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Apply a background color and font styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Style the header */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav h1 {
+    font-size: 24px;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #ff4500; /* Change color on hover */
+}
+
+/* Style sections */
+section {
+    padding: 40px 0;
+}
+
+/* Style the about section */
+#about {
+    background-color: #fff;
+}
+
+#about p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Style the portfolio section */
+#portfolio {
+    background-color: #f0f0f0;
+}
+
+.project {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.project img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.project h3 {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+/* Style the contact section */
+#contact {
+    background-color: #fff;
+}
+
+#contact ul {
+    list-style-type: none;
+}
+
+#contact ul li {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Style the footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav ul {
+        margin-top: 20px;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    header {
+        padding: 20px;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <h1>Your Name</h1>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>Welcome to my portfolio website. I am a passionate software engineer with expertise in web development, mobile app development, and more. I love creating innovative solutions to real-world problems.</p>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="container">
+            <h2>Portfolio</h2>
+            <div class="project">
+                <img src="project1.jpg" alt="Project 1">
+                <h3>Project 1</h3>
+                <p>Description of your project goes here.</p>
+            </div>
+            <div class="project">
+                <img src="project2.jpg" alt="Project 2">
+                <h3>Project 2</h3>
+                <p>Description of your project goes here.</p>
+            </div>
+            <!-- Add more projects as needed -->
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <p>If you would like to get in touch with me, please feel free to reach out:</p>
+            <ul>
+                <li>Email: <a href="mailto:youremail@example.com">youremail@example.com</a></li>
+                <li>LinkedIn: <a href="https://www.linkedin.com/in/yourprofile/">LinkedIn Profile</a></li>
+                <li>GitHub: <a href="https://github.com/yourusername">GitHub Profile</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Your Name</p>
+        </div>
+    </footer>
+
+    <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('nav ul');
+
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('show');
+    });
+    <button class="nav-toggle">Toggle Menu</button>
+    const form = document.querySelector('#contact-form');
+    
+    form.addEventListener('submit', function(event) {
+        let isValid = true;
+        const inputs = this.querySelectorAll('input[type="text"], input[type="email"]');
+        
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                isValid = false;
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        });
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+    const projects = document.querySelectorAll('.project');
+    
+    projects.forEach(project => {
+        const img = project.querySelector('img');
+        
+        img.addEventListener('click', () => {
+            const lightbox = document.createElement('div');
+            lightbox.classList.add('lightbox');
+            lightbox.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
+            
+            document.body.appendChild(lightbox);
+            
+            lightbox.addEventListener('click', () => {
+                lightbox.remove();
+            });
+        });
+    });
+    </script>
+</body>
+</html>

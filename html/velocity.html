@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+        let c = canvas.getContext('2d');
+        let mouse = {
+            x: innerWidth / 2,
+            y: innerHeight / 2,
+        };
+        let colors = [
+            '#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66'
+        ]
+        addEventListener('mousemove', event => {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+        })
+        addEventListener("resize", function () {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            init();
+        })
+        function randomIntFromRange(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+        function randomColor(colors) {
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        function getDist(x1, y1, x2, y2) {
+            let xdist = x2 - x1;
+            let ydist = y2 - y1;
+            return Math.sqrt(Math.pow(xdist, 2) + Math.pow(ydist, 2));
+        }
+        function rotate(velocity, angle) {
+            let rotatedvelocities = {
+                x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
+                y: velocity.x * Math.sin(angle) + velocity.y * Math.cos(angle),
+            };
+            return rotatedvelocities;
+        }
+        function resolvecoollision(particle, otherparticle) {
+            let xdiff = particle.velocity.x - otherparticle.velocity.x;
+            let ydiff = particle.velocity.y - otherparticle.velocity.y;
+            let xdist = otherparticle.x - particle.x;
+            let ydist = otherparticle.y - particle.y;
+            if (xdiff * xdist + ydiff * ydist > 0) {
+                let angle = -Math.atan2(otherparticle.y - particle.y, otherparticle.x - particle.x);
+                let m1 = particle.mass;
+                let m2 = otherparticle.mass;
+                let u1 = rotate(particle.velocity, angle);
+                let u2 = rotate(otherparticle.velocity, angle);
+                let v1 = { x: u1.x * (m1 - m2) / (m1 + m2) + u2.x * 2 * m2 / (m1 + m2), y: u1.y };
+                let v2 = { x: u2.x * (m1 - m2) / (m1 + m2) + u1.x * 2 * m2 / (m1 + m2), y: u2.y };
+                let vfinal1 = rotate(v1, -angle);
+                let vfinal2 = rotate(v2, -angle);
+                particle.velocity.x = vfinal1.x;
+                particle.velocity.y = vfinal1.y;
+                otherparticle.velocity.x = vfinal2.x;
+                otherparticle.velocity.y = vfinal2.y;
+            }
+        }
+        function particle(x, y, radius, color) {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.color = color;
+            this.mass = 1;
+            this.velocity = {
+                x:Math.random()-0.5,
+                y: Math.random()-0.5,
+            };
+            this.update = particles => {
+                this.draw();
+                for (let i = 0; i < particles.length; i++) {
+                    if (this === particles[i]) {
+                        continue;
+                    }
+                    if (getDist(this.x, this.y, particles[i].x, particles[i].y) - this.radius * 2 < 0) {
+                        resolvecoollision(this, particles[i]);
+                    }
+                }
+                if (this.x - this.radius < 0 || this.x + this.radius >= innerWidth) {
+                    this.velocity.x = -this.velocity.x;
+                }
+                if (this.y - this.radius < 0 || this.y + this.radius >= innerHeight) {
+                    this.velocity.y = -this.velocity.y;
+                }
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+            }
+            this.draw = () => {
+                c.beginPath();
+                c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                c.strokeStyle = this.color;
+                c.stroke();
+                c.closePath();
+            }
+        }
+        let particles;
+        function init() {
+            particles = [];
+            for (let i = 0; i < 400; i++) {
+                let radius = 10;
+                let x = randomIntFromRange(radius, canvas.width - radius);
+                let y = randomIntFromRange(radius, canvas.height - radius);
+                let color = "blue";
+                if (i !== 0) {
+                    for (let j = 0; j < particles.length; j++) {
+                        if (getDist(x, y, particles[j].x, particles[j].y) - radius * 2 < 0) {
+                            x = randomIntFromRange(radius, canvas.width - radius);
+                            y = randomIntFromRange(radius, canvas.height - radius);
+                            j = -1;
+                        }
+                    }
+                }
+                particles.push(new particle(x, y, radius, color));
+            }
+        }
+        function animate() {
+            requestAnimationFrame(animate);
+            c.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update(particles);
+            });
+        }
+        init();
+        animate();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithm Visualizer</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #808080;
+        }
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 500px;
+        }
+        .bar-container {
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+        }
+        .bar {
+            width: 25px;
+            margin: 0 3px;
+            background-color: #3498db;
+        }
+        .bar-label {
+            font-size: 15px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sorting Algorithm Visualizer</h1>
+    <button onclick="startSorting()">Start Sorting</button>
+    <button onclick="resetArray()">Generate New Array</button>
+    <div id="container"></div>
+
+    <script>
+        let array = [];
+
+        function generateArray() {
+            array = [];
+            for (let i = 0; i < 50; i++) {
+                array.push(Math.floor(Math.random() * 300) + 1);
+            }
+            renderArray();
+        }
+
+        function renderArray() {
+            const container = document.getElementById("container");
+            container.innerHTML = "";
+            for (let i = 0; i < array.length; i++) {
+                const barContainer = document.createElement("div");
+                barContainer.className = "bar-container";
+
+                const bar = document.createElement("div");
+                bar.style.height = `${array[i]}px`;
+                bar.className = "bar";
+
+                const label = document.createElement("div");
+                label.className = "bar-label";
+                label.textContent = array[i];
+
+                barContainer.appendChild(bar);
+                barContainer.appendChild(label);
+                container.appendChild(barContainer);
+            }
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function bubbleSort() {
+            for (let i = 0; i < array.length - 1; i++) {
+                for (let j = 0; j < array.length - i - 1; j++) {
+                    if (array[j] > array[j + 1]) {
+                        [array[j], array[j + 1]] = [array[j + 1], array[j]];
+                        renderArray();
+                        await delay(10);
+                    }
+                }
+            }
+        }
+
+        function startSorting() {
+            bubbleSort();
+        }
+
+        function resetArray() {
+            generateArray();
+        }
+
+        generateArray();
+    </script>
+</body>
+</html>
