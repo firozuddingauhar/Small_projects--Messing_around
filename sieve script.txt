@@ -1,0 +1,78 @@
+Sieve script 
+
+Given an int n return all primes less than n 
+This was just one of many problems I solved while practicing for my technical interviews
+But this one led me down an insane rabbit hole of mathematics
+
+Its an easy question 
+I know what a prime is , a prime is a number only divisible by one and itself
+We define the is prime function that takes an input n as
+Def isprime(n):
+	for I in range(2,n):  check each number from 2 up until n 
+		if I%n==0:           and if any one of those divides the number evenly 
+			return Flase	its not a prime	
+	return true      if no number diveds it evenly its prime
+
+So to return all primes less than n 
+
+We go through each number from 2 to n and if its a prime we return it
+
+For I in range(2,n):
+	if isprime(n):
+		print(n)
+
+Easy now what they ask you is can you make it more efficient and yes you can by using the fact that if two number bigger than root n are multipleid
+The result is always more than n 
+So you need to check only till root n in the isprime function 
+(This bit needs work)
+
+So after doing this I checked if my solution was the most optimal or not 
+And I found that this algorithm called sieve of eresthophees is the most optimal solution
+Off course with a name soo cool it must be good 
+
+Lets see what it is 
+
+It says to take all the numbers from 2 till n in an array and mark all of them as prime at the start
+Now you go from 2 till n 
+And mark each multiple of the current number as not prime 
+And then move to the next number that is marked prime
+So you started from 2 mark 4,6,8,10..as not prime
+Then next is 3 mark 6,9,12…as not prime 
+Now next will be 5 not 4 cause 4 is already marked not prime so we move to 5 and mark 10,15,20.. as not prime and so on
+And after all number are done only primes are left as marked prime 
+genuis algorithm 
+
+Now the journey actually starts 
+Cause can someone say that one algorithm is more optimal than another 
+For that you look at its big o of its time complexity
+If you do know what is big o of tc skip to this time stamp cause I will explain that first for those who don’t know 
+
+So if look this function takes n as input and gives you primes less than n 
+Time complexity measures how many steps this function will execute to give the output given a certain number this will be a function that tells you how many steps it will take to give the result based on n 
+So for the first algorithm it will start 
+
+
+
+
+
+
+So we know how to find big o tc of any algorithm so we start with this it will run for 
+
+
+What is this expression
+
+Google what is the time complexity of seive of E -> nloglogn
+What I haven’t seen this for any other algorithm why is that 
+
+Google why is the tc of sieve nloglogn 
+Because of sum of recipricle of primes till n is nloglogn 
+Okay so this expression equals nloglogn 
+Why because of the prime number 
+Lets see the proof 
+
+Okay but the prime number theory is true why would I just believe that ,
+Lets see the proof
+War flashbacks so the proof a lit bit more complicated than what I am comfortable with in this video I can’t explain it (cause I didn’t understand it completely)
+So I found another proof that satisfies my curiosity 
+Lets go over it 
+
